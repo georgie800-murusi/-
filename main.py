@@ -1,23 +1,25 @@
 #Импорт
-from flask import Flask, render_template,request, redirect
+from flask import Flask, render_template, request, redirect, url_for, flash
 
 
 
 app = Flask(__name__)
+app.secret_key = 'your_secret_key'
 
 #Запуск страницы с контентом
 @app.route('/')
 def index():
     return render_template('index.html')
 
-
-#Динамичные скиллы
-
-@app.route('/form_result')
+@app.route('/form_result', methods=['POST'])
 def form_result():
-    button_energy = request.form.get('button_energy')
-    return render_template('form_result.html')
+    name = request.form.get('name')
+    email = request.form.get('email')
+    message = request.form.get('message')
 
+    print(f'Name: {name}, Email: {email}, Message: {message}')
 
-if __name__ == "__main__":
+    return redirect(url_for('index'))
+
+if __name__ == '__main__':
     app.run(debug=True)
